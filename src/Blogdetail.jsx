@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Blogdetail = () => {
   const { id } = useParams(); // get :id from the route
-  const { data: blog, isPending, error } = Usefetch(`https://68972041250b078c20410a01.mockapi.io/notes/database/users/${id}`);
+  const { data: note, isPending, error } = Usefetch(`https://68972041250b078c20410a01.mockapi.io/notes/database/users/${id}`);
   const navigate = useNavigate();
 
   const handleDelete = (id) => {
@@ -23,12 +23,12 @@ const Blogdetail = () => {
     <div className="blog-detail">
       {isPending && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      {blog && (
+      {note && (
         <>
-          <h2>{blog.title}</h2>
-          <p>By {blog.author}</p>
-          <div className="blog-body">{blog.body}</div>
-          <button onClick={() => handleDelete(blog.id)}>delete</button>
+          <h2>{note.title}</h2>
+          <p>By {note.author}</p>
+          <div className="blog-body">{note.content}</div>
+          <button onClick={() => handleDelete(note.id)}>delete</button>
         </>
       )}
     </div>

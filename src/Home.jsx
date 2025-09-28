@@ -10,7 +10,7 @@ const Home = () => {
     <div>
       {isPending && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      {note && <Blogprop note={note} title={"Blog Posts"}/>}
+      {note && <Blogprop note={note} title={"My notes"}/>}
     </div>
   )
 }

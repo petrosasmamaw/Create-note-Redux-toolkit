@@ -1,9 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useNotes } from './NoteContext'
+
 
 const Blogprop = ({note, title}) => {
-  const { notes: favoriteNotes, addNote } = useNotes();
   return (
     <div className="blog-list-container">
       <h2 className="blog-list-title">{title}</h2>
