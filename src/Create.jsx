@@ -1,19 +1,26 @@
-import React from 'react'
+import React,{useRef} from 'react'
 import { useState } from 'react';
 import Usefetch from './Usefetch';
 import { useNavigate } from 'react-router-dom';
 
 const Create = () => {
-
-   const [title, setTitle] = React.useState('');
-   const [content, setContent] = React.useState('');
-   const [author, setAuthor] = React.useState('');
-   const [isPending, setIsPending] = React.useState(false);
-   const navigate = useNavigate();
+  const titleRef = useRef();
+  const contentRef = useRef();
+  const authorRef = useRef();
+  const [isPending, setIsPending] = React.useState(false);
+  const navigate = useNavigate();
+  const [error, setError] = useState(false);
 
    const handleSubmit = (e) => {
      e.preventDefault();
-     const blog = { title, content, author };
+     
+     if (titleRef.current.value.includes('@')) {
+       setError(true);
+       return;
+     }
+     else{
+      setError(false)
+      const blog = { title: titleRef.current.value, content: contentRef.current.value, author: authorRef.current.value };
 
         fetch('https://68972041250b078c20410a01.mockapi.io/notes/database/users', {
        method: 'POST',
@@ -22,8 +29,13 @@ const Create = () => {
      })
      .then(() => {
        setIsPending(false);
-       navigate('/'); 
+       navigate('/');
+     })
+     .catch((err) => {
+       setError('Failed to create post');
+       setIsPending(false);
      });
+     }
    }
 
   return (
@@ -32,18 +44,20 @@ const Create = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="title">Title:</label>
-          <input type="text" onChange={(e)=> setTitle(e.target.value)} name="title" required />
+          <input type="text" ref={titleRef} name="title" required />
         </div>
+          {error && <p className="error">Title should not contain '@'</p>}
         <div>
           <label htmlFor="content">Content:</label>
-          <textarea id="content" name="content" required onChange={(e)=> setContent(e.target.value)}></textarea >
+          <textarea id="content" ref={contentRef} name="content" required></textarea >
         </div>
         <div>
           <label htmlFor="author">Author:</label>
-          <input type="text" id="author" name="author" required onChange={(e)=> setAuthor(e.target.value)} />
+          <input type="text" id="author" ref={authorRef} name="author" required />
         </div>
         {isPending && <p>Creating post...</p>}
         {!isPending && <button type="submit">Create Post</button>}
+        <button type='reset' onClick={() => setError(false)}>Reset</button>
       </form>
     </div>
   )

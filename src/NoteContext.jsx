@@ -5,7 +5,7 @@ export const NoteContext = createContext();
 
 export const NoteProvider = ({ children }) => {
 const [notes, setNotes] = useState([]);
-const { data, isPending, error } = Usefetch('https://68972041250b078c20410a01.mockapi.io/notes/database/users')
+
 
   // Add note (prevent duplicates)
   const addNote = (note) => {
@@ -24,7 +24,7 @@ const { data, isPending, error } = Usefetch('https://68972041250b078c20410a01.mo
   };
 
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote,data, isPending, error }}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote }}>
       {children}
     </NoteContext.Provider>
   );
