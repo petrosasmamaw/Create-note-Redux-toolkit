@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Blogprop from './Blog-props'
-import Usefetch from './Usefetch'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchNotes, selectAllNotes, selectIsLoading, selectError } from './noteSlice'
 
     
 const Home = () => {
-const { data, isPending, error } = Usefetch('https://68972041250b078c20410a01.mockapi.io/notes/database/users')
+ const allNotes = useSelector(selectAllNotes);
+ const isLoading = useSelector(selectIsLoading);
+ const error = useSelector(selectError);
+ const dispatch = useDispatch();
+
+ useEffect(() => {
+   dispatch(fetchNotes());
+ }, [dispatch]);
 
   return (
     <div>
-      {isPending && <div>Loading...</div>}
+      {isLoading && <div>Loading...</div>}
       {error && <div>{error}</div>}
-  {data && <Blogprop note={data} title={"My notes"}/>}
+      {allNotes && <Blogprop note={allNotes} title={"My notes"}/>}
     </div>
   )
 }

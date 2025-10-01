@@ -1,9 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useNotes } from './NoteContext'
+import { useSelector, useDispatch } from 'react-redux';
+import { removeNote } from './noteSlice';
 
 const Favorites = () => {
-    const { notes: favoriteNotes, deleteNote } = useNotes();
+  const favoriteNotes = useSelector((state) => state.notes.favorites);
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch(removeNote({ id }));
+  };
+ 
   return (
     <div className="blog-list-container">
       <h2 className="blog-list-title">Favorite Notes</h2>
@@ -14,7 +21,7 @@ const Favorites = () => {
               <h3 className="blog-card-title">{note.title}</h3>
               <span className="blog-card-author">{note.author}</span>
             </Link>
-            <button onClick={() => deleteNote(note.id)}>Remove from Favorites</button>
+            <button onClick={() => handleDelete(note.id)}>Remove from Favorites</button>
           </div>
         ))}
       </div>
