@@ -9,27 +9,11 @@ export const fetchNotes = createAsyncThunk('notes/fetchNotes', async () => {
 const noteSlice = createSlice({
   name: 'notes',
   initialState: {
-    favorites: [],
     allNotes: [],
     isLoading: false,
     error: null,
   },
-  reducers: {
-    addNote: (state, action) => {
-      const exists = state.favorites.some((note) => note.id === action.payload.id);
-      if (!exists) {
-        state.favorites.push(action.payload);
-      }
-    },
-    removeNote: (state, action) => {
-      state.favorites = state.favorites.filter(
-        (note) => note.id !== action.payload.id
-      );
-    },
-    clearFavorites: (state) => {
-      state.favorites = [];
-    },
-  },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchNotes.pending, (state) => {
@@ -47,12 +31,10 @@ const noteSlice = createSlice({
   },
 });
 
-export const { addNote, removeNote, clearFavorites } = noteSlice.actions;
 
-// selectors
 export const selectAllNotes = (state) => state.notes.allNotes;
 export const selectIsLoading = (state) => state.notes.isLoading;
 export const selectError = (state) => state.notes.error;
-export const selectFavorites = (state) => state.notes.favorites;
+
 
 export default noteSlice.reducer;

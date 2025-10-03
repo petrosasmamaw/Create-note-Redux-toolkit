@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import { addNote } from './noteSlice';
+import { addNote, selectFavorites } from './noteFavoriteSlice';
 
 
 const Blogprop = ({note, title}) => {
-  const favoriteNotes = useSelector((state) => state.notes.favorites);
+  const favoriteNotes = useSelector(selectFavorites);
   const dispatch = useDispatch();
   const addNoteToFavorites = (note) => {
     dispatch(addNote(note));

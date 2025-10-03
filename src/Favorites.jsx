@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import { removeNote } from './noteSlice';
+import { removeNote, selectFavorites } from './noteFavoriteSlice';
 
 const Favorites = () => {
-  const favoriteNotes = useSelector((state) => state.notes.favorites);
+  const favoriteNotes = useSelector(selectFavorites);
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
